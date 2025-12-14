@@ -34,7 +34,7 @@ const Index = () => {
       name: 'Классический блейзер',
       category: 'jacket',
       price: '12 990 ₽',
-      image: 'https://placehold.co/500x600/1a1f2c/ffffff?text=Blazer',
+      image: 'https://cdn.poehali.dev/projects/35d52908-c89e-4ad0-b650-e19fc59d4611/files/3322c1e1-479c-4b55-946d-f1739a254e78.jpg',
       trend: 'Business Chic'
     },
     {
@@ -42,7 +42,7 @@ const Index = () => {
       name: 'Шёлковое платье',
       category: 'dress',
       price: '8 490 ₽',
-      image: 'https://placehold.co/500x600/f97316/ffffff?text=Dress',
+      image: 'https://cdn.poehali.dev/projects/35d52908-c89e-4ad0-b650-e19fc59d4611/files/1c8add7f-6303-467f-a8c4-9219ece3d9c5.jpg',
       trend: 'Elegant Evening'
     },
     {
@@ -58,7 +58,7 @@ const Index = () => {
       name: 'Кожаная юбка',
       category: 'skirt',
       price: '9 990 ₽',
-      image: 'https://placehold.co/500x600/8b5cf6/ffffff?text=Skirt',
+      image: 'https://cdn.poehali.dev/projects/35d52908-c89e-4ad0-b650-e19fc59d4611/files/c25b14b8-f272-438c-b0e9-f7a87cd5fbdf.jpg',
       trend: 'Edgy Modern'
     },
     {
@@ -66,7 +66,7 @@ const Index = () => {
       name: 'Льняная рубашка',
       category: 'shirt',
       price: '4 990 ₽',
-      image: 'https://placehold.co/500x600/10b981/ffffff?text=Shirt',
+      image: 'https://cdn.poehali.dev/projects/35d52908-c89e-4ad0-b650-e19fc59d4611/files/c0f250a6-4226-4230-837d-3eae12737176.jpg',
       trend: 'Casual Minimal'
     },
     {
@@ -74,7 +74,7 @@ const Index = () => {
       name: 'Трикотажное платье',
       category: 'dress',
       price: '7 490 ₽',
-      image: 'https://placehold.co/500x600/ec4899/ffffff?text=Dress',
+      image: 'https://cdn.poehali.dev/projects/35d52908-c89e-4ad0-b650-e19fc59d4611/files/d39b7ded-cde6-4355-a608-30d3dfed7d25.jpg',
       trend: 'Cozy Comfort'
     }
   ];
