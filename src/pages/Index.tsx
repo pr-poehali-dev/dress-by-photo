@@ -50,7 +50,7 @@ const Index = () => {
       name: 'Джинсовая куртка',
       category: 'jacket',
       price: '6 990 ₽',
-      image: 'https://placehold.co/500x600/3b82f6/ffffff?text=Jacket',
+      image: 'https://cdn.poehali.dev/projects/35d52908-c89e-4ad0-b650-e19fc59d4611/files/5791955c-cc06-46b6-8d73-7efe0b532802.jpg',
       trend: 'Urban Street'
     },
     {
