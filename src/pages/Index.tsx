@@ -34,7 +34,7 @@ const Index = () => {
       name: 'Классический блейзер',
       category: 'jacket',
       price: '12 990 ₽',
-      image: 'https://images.unsplash.com/photo-1591047139829-d91aecb6caea?w=500&h=600&fit=crop',
+      image: 'https://placehold.co/500x600/1a1f2c/ffffff?text=Blazer',
       trend: 'Business Chic'
     },
     {
@@ -42,7 +42,7 @@ const Index = () => {
       name: 'Шёлковое платье',
       category: 'dress',
       price: '8 490 ₽',
-      image: 'https://images.unsplash.com/photo-1595777457583-95e059d581b8?w=500&h=600&fit=crop',
+      image: 'https://placehold.co/500x600/f97316/ffffff?text=Dress',
       trend: 'Elegant Evening'
     },
     {
@@ -50,7 +50,7 @@ const Index = () => {
       name: 'Джинсовая куртка',
       category: 'jacket',
       price: '6 990 ₽',
-      image: 'https://images.unsplash.com/photo-1551028719-00167b16eac5?w=500&h=600&fit=crop',
+      image: 'https://placehold.co/500x600/3b82f6/ffffff?text=Jacket',
       trend: 'Urban Street'
     },
     {
@@ -58,7 +58,7 @@ const Index = () => {
       name: 'Кожаная юбка',
       category: 'skirt',
       price: '9 990 ₽',
-      image: 'https://images.unsplash.com/photo-1583496661160-fb5886a0aaaa?w=500&h=600&fit=crop',
+      image: 'https://placehold.co/500x600/8b5cf6/ffffff?text=Skirt',
       trend: 'Edgy Modern'
     },
     {
@@ -66,7 +66,7 @@ const Index = () => {
       name: 'Льняная рубашка',
       category: 'shirt',
       price: '4 990 ₽',
-      image: 'https://images.unsplash.com/photo-1596755094514-f87e34085b2c?w=500&h=600&fit=crop',
+      image: 'https://placehold.co/500x600/10b981/ffffff?text=Shirt',
       trend: 'Casual Minimal'
     },
     {
@@ -74,7 +74,7 @@ const Index = () => {
       name: 'Трикотажное платье',
       category: 'dress',
       price: '7 490 ₽',
-      image: 'https://images.unsplash.com/photo-1572804013309-59a88b7e92f1?w=500&h=600&fit=crop',
+      image: 'https://placehold.co/500x600/ec4899/ffffff?text=Dress',
       trend: 'Cozy Comfort'
     }
   ];
