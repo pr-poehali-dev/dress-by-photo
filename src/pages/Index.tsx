@@ -4,6 +4,8 @@ import { Card, CardContent } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import Icon from '@/components/ui/icon';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import { useToast } from '@/hooks/use-toast';
+import ProfileModal from '@/components/ProfileModal';
 
 interface ClothingItem {
   id: number;
@@ -14,10 +16,17 @@ interface ClothingItem {
   trend: string;
 }
 
+const TRYON_API = 'https://functions.poehali.dev/57eb8f02-f068-4962-a431-94dc98aa93d2';
+const OUTFITS_API = 'https://functions.poehali.dev/b768f89b-5208-47f1-a88b-232c1067c4f5';
+
 const Index = () => {
   const [selectedImage, setSelectedImage] = useState<string | null>(null);
   const [selectedClothing, setSelectedClothing] = useState<ClothingItem | null>(null);
   const [activeFilter, setActiveFilter] = useState('all');
+  const [resultImage, setResultImage] = useState<string | null>(null);
+  const [processing, setProcessing] = useState(false);
+  const [profileOpen, setProfileOpen] = useState(false);
+  const { toast } = useToast();
 
   const clothingItems: ClothingItem[] = [
     {
@@ -88,6 +97,94 @@ const Index = () => {
     }
   };
 
+  const handleTryOn = async () => {
+    if (!selectedImage || !selectedClothing) {
+      toast({
+        title: 'Ошибка',
+        description: 'Загрузите фото и выберите одежду',
+        variant: 'destructive'
+      });
+      return;
+    }
+
+    setProcessing(true);
+    try {
+      const response = await fetch(TRYON_API, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          userPhoto: selectedImage,
+          clothingId: selectedClothing.id,
+          clothingName: selectedClothing.name
+        })
+      });
+
+      const data = await response.json();
+      
+      if (response.ok && data.success) {
+        setResultImage(data.resultPhotoUrl);
+        toast({
+          title: 'Готово!',
+          description: 'Примерка завершена успешно'
+        });
+      } else {
+        throw new Error(data.error || 'Try-on failed');
+      }
+    } catch (error) {
+      toast({
+        title: 'Ошибка',
+        description: 'Не удалось выполнить примерку',
+        variant: 'destructive'
+      });
+    } finally {
+      setProcessing(false);
+    }
+  };
+
+  const handleSaveOutfit = async () => {
+    const userId = localStorage.getItem('userId');
+    
+    if (!userId) {
+      toast({
+        title: 'Войдите в аккаунт',
+        description: 'Для сохранения образов нужна авторизация'
+      });
+      setProfileOpen(true);
+      return;
+    }
+
+    if (!resultImage || !selectedClothing) return;
+
+    try {
+      const response = await fetch(OUTFITS_API, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'X-User-Id': userId
+        },
+        body: JSON.stringify({
+          originalPhotoUrl: selectedImage,
+          resultPhotoUrl: resultImage,
+          clothingItemId: selectedClothing.id,
+          clothingName: selectedClothing.name
+        })
+      });
+
+      if (response.ok) {
+        toast({
+          title: 'Сохранено!',
+          description: 'Образ добавлен в личный кабинет'
+        });
+      }
+    } catch (error) {
+      toast({
+        title: 'Ошибка',
+        description: 'Не удалось сохранить образ',
+        variant: 'destructive'
+      });
+    }
+  };
+
   const filteredItems = activeFilter === 'all' 
     ? clothingItems 
     : clothingItems.filter(item => item.category === activeFilter);
@@ -102,10 +199,18 @@ const Index = () => {
               <Button variant="ghost" className="text-sm font-medium">
                 Каталог
               </Button>
-              <Button variant="ghost" className="text-sm font-medium">
+              <Button 
+                variant="ghost" 
+                className="text-sm font-medium"
+                onClick={() => setProfileOpen(true)}
+              >
                 Мои образы
               </Button>
-              <Button variant="default" className="bg-accent hover:bg-accent/90">
+              <Button 
+                variant="default" 
+                className="bg-accent hover:bg-accent/90"
+                onClick={() => setProfileOpen(true)}
+              >
                 <Icon name="User" size={18} className="mr-2" />
                 Войти
               </Button>
@@ -152,7 +257,13 @@ const Index = () => {
 
           <div className="relative animate-scale-in">
             <div className="aspect-[3/4] bg-gradient-to-br from-muted to-accent/5 rounded-3xl overflow-hidden shadow-2xl">
-              {selectedImage ? (
+              {resultImage ? (
+                <img 
+                  src={resultImage} 
+                  alt="Result" 
+                  className="w-full h-full object-cover"
+                />
+              ) : selectedImage ? (
                 <img 
                   src={selectedImage} 
                   alt="Uploaded" 
@@ -178,9 +289,43 @@ const Index = () => {
                       <h4 className="font-semibold">{selectedClothing.name}</h4>
                       <p className="text-sm text-muted-foreground">{selectedClothing.price}</p>
                     </div>
-                    <Button size="sm" className="bg-accent hover:bg-accent/90">
-                      <Icon name="ShoppingBag" size={16} />
-                    </Button>
+                    <div className="flex gap-2">
+                      <Button 
+                        size="sm" 
+                        className="bg-primary hover:bg-primary/90"
+                        onClick={handleTryOn}
+                        disabled={processing}
+                      >
+                        {processing ? (
+                          <Icon name="Loader2" size={16} className="animate-spin" />
+                        ) : (
+                          <Icon name="Wand2" size={16} />
+                        )}
+                      </Button>
+                      {resultImage && (
+                        <>
+                          <Button 
+                            size="sm" 
+                            variant="secondary"
+                            onClick={handleSaveOutfit}
+                          >
+                            <Icon name="Save" size={16} />
+                          </Button>
+                          <Button 
+                            size="sm" 
+                            variant="secondary"
+                            onClick={() => {
+                              const link = document.createElement('a');
+                              link.href = resultImage;
+                              link.download = 'vogue-fit-result.jpg';
+                              link.click();
+                            }}
+                          >
+                            <Icon name="Download" size={16} />
+                          </Button>
+                        </>
+                      )}
+                    </div>
                   </div>
                 </div>
               )}
@@ -323,6 +468,8 @@ const Index = () => {
           </div>
         </div>
       </footer>
+      
+      <ProfileModal open={profileOpen} onOpenChange={setProfileOpen} />
     </div>
   );
 };
